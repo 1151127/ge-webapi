@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var uController = require('../controller/utilizadorController');
+var uController = require('../../app/Controller/utilizadorController');
 
 // create a cliente (accessed at POST http://localhost:8080/api/utilizador)
 router.get('/',uController.getUtilizador);
