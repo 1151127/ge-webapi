@@ -8,7 +8,7 @@ var express = require('express');        // call express
 var app = express();                 // define our app using express
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-
+mongoose.Promise = global.Promise;
 
 //Router
 var utilizadorRouter = require('./app/Routes/utilizadorRouter');
@@ -19,7 +19,7 @@ var encomendaRouter = require('./app/Routes/encomendaRouter');
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-mongoose.connect('mongodb+srv://root:qwert19@gedatabase-clbjy.azure.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }); // connect to our database
+mongoose.connect('mongodb+srv://root:qwert19@gedatabase-clbjy.azure.mongodb.net/test?retryWrites=true&w=majority', {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true}); // connect to our database
 
 
 var port = process.env.PORT || 8080;        // set our port
