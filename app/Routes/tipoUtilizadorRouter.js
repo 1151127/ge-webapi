@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var tuController = require('../controller/tipoUtilizadorController');
+var tuController = require('../../app/Controller/tipoUtilizadorController');
 
 // create a cliente (accessed at POST http://localhost:8080/api/utilizador)
 router.post('/',tuController.saveTipoUtilizador);
