@@ -1,0 +1,14 @@
+{
+    "name": "node-api",
+    "main": "server.js",
+    "dependencies": {
+        "body-parser": "latest",
+        "express": "latest",
+        "mongoose": "latest",
+        "mongoose-auto-increment": "^5.0.1",
+        "mongoose-id-validator": "^0.5.4"
+    },
+    "engines": {
+        "node": "latest"
+    }
+}
