@@ -13,7 +13,7 @@ var mongoose = require('mongoose');
 //Router
 var utilizadorRouter = require('./app/Routes/utilizadorRouter');
 var tipoUtilizadorRouter = require('./app/Routes/tipoUtilizadorRouter');
-var encomendaRouter = require('./app/Routes//encomendaRouter');
+var encomendaRouter = require('./app/Routes/encomendaRouter');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
