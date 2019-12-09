@@ -1,19 +1,50 @@
 var Utilizador = require('../Models/utilizador');
+var UtilizadorDTO = require('../DTO/utilizadorDTO');
 var TipoUtilizador = require('../Models/tipoUtilizador');
 
-exports.getUtilizador = function(req, res) {
-    Utilizador.find(function (err, arr) {
+exports.getUtilizador = async function (req, res) {
+    Utilizador.find(async function (err, arr) {
         if (err)
-          res.send(err);
-        res.json(arr);
+            res.send(err);
+
+        var i;
+        var utilArray = [];
+        var util;
+        var taux;
+        for (i = 0; i < arr.length; i++) {
+            util = new UtilizadorDTO();
+            util._id = arr[i]._id;
+            util.nome = arr[i].nome;
+            util.pass = arr[i].pass;
+            util.email = arr[i].email;
+            util.morada = arr[i].morada;
+            taux = await TipoUtilizador.findOne({ _id: arr[i].tipoUtilizador });
+            if (taux != null) {
+                util.tipoUtilizadorId = taux.id;
+                util.tipoUtilizadorDesc = taux.desc;
+            }
+            taux = null;
+            utilArray.push(util);
+        }
+        res.json(utilArray);
     });
 };
 
-exports.getUtilizadorById = function(req, res) {
-    Utilizador.findById(req.params.id, function (err, arr) {
+exports.getUtilizadorById = async function (req, res) {
+    Utilizador.findById(req.params.id, async function (err, arr) {
         if (err)
-          res.send(err);
-        res.json(arr);
+            res.send(err);
+
+        var util = new UtilizadorDTO();
+        util._id = arr._id;
+        util.nome = arr.nome;
+        util.pass = arr.pass;
+        util.email = arr.email;
+        util.morada = arr.morada;
+        var taux = await TipoUtilizador.findOne({ _id: arr.tipoUtilizador });
+        util.tipoUtilizadorId = taux.id;
+        util.tipoUtilizadorDesc = taux.desc;
+        res.json(util);
     });
 };
 
@@ -35,7 +66,7 @@ exports.saveUtilizador = async function (req, res) {
     //TipoUtilizador
     var taux = await TipoUtilizador.findOne({ desc: req.body.tipoUtilizador });
     if (taux != null) {
-        
+
         utilizador.tipoUtilizador = taux._id;
         // save the utilizador and check for errors
         utilizador.save(function (err) {
@@ -68,7 +99,7 @@ exports.modifUtilizador = async function (req, res) {
     //TipoUtilizador
     var taux = await TipoUtilizador.findOne({ desc: req.body.tipoUtilizador });
     if (taux != null) {
-        
+
         utilizador.tipoUtilizador = taux;
         // save the utilizador and check for errors
         utilizador.save(function (err) {
