@@ -6,11 +6,15 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
+        "axios": "^0.19.0",
         "body-parser": "latest",
         "express": "latest",
+        "https": "latest",
+        "js-httpclient": "0.0.3",
         "mongoose": "latest",
         "mongoose-auto-increment": "^5.0.1",
-        "mongoose-id-validator": "^0.5.4"
+        "mongoose-id-validator": "^0.5.4",
+        "request": "latest"
     },
     "engines": {
         "node": "latest"

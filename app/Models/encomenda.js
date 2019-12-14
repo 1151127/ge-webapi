@@ -6,6 +6,9 @@ var Schema       = mongoose.Schema;
 var EncomendaSchema = new Schema({
     produtoId: Number,
     quantidade: Number,
+    dataCriacaoEncomenda: Date,
+    dataEntregaEncomenda: Date,
+    estadoBloqueado: Boolean,//Verifica se já está em produção(false = ainda não| true = em produção)
     cliente: {type: Schema.Types.ObjectId, ref: 'Utilizador'}
 });
 

@@ -34,82 +34,192 @@ exports.getUtilizadorById = async function (req, res) {
     Utilizador.findById(req.params.id, async function (err, arr) {
         if (err)
             res.send(err);
+        if (arr != null) {
+            var util = new UtilizadorDTO();
+            util._id = arr._id;
+            util.nome = arr.nome;
+            util.pass = arr.pass;
+            util.email = arr.email;
+            util.morada = arr.morada;
+            var taux = await TipoUtilizador.findOne({ _id: arr.tipoUtilizador });
+            util.tipoUtilizadorId = taux.id;
+            util.tipoUtilizadorDesc = taux.desc;
+            res.json(util);
+        } else {
+            res.send('Não existe!');
+        }
+    });
+};
 
-        var util = new UtilizadorDTO();
-        util._id = arr._id;
-        util.nome = arr.nome;
-        util.pass = arr.pass;
-        util.email = arr.email;
-        util.morada = arr.morada;
-        var taux = await TipoUtilizador.findOne({ _id: arr.tipoUtilizador });
-        util.tipoUtilizadorId = taux.id;
-        util.tipoUtilizadorDesc = taux.desc;
-        res.json(util);
+exports.getUtilizadorByNome = async function (req, res) {
+    Utilizador.findOne({ nome: req.params.nome }, async function (err, arr) {
+        if (err)
+            res.send(err);
+        if (arr != null) {
+            var util = new UtilizadorDTO();
+            util._id = arr._id;
+            util.nome = arr.nome;
+            util.pass = arr.pass;
+            util.email = arr.email;
+            util.morada = arr.morada;
+            var taux = await TipoUtilizador.findOne({ _id: arr.tipoUtilizador });
+            util.tipoUtilizadorId = taux.id;
+            util.tipoUtilizadorDesc = taux.desc;
+            res.json(util);
+        } else {
+            res.send('Não existe!');
+        }
     });
 };
 
 exports.saveUtilizador = async function (req, res) {
 
-    //Utilizador
-    var utilizador = new Utilizador();
-    utilizador.nome = req.body.nome;
+    //Verificar se já existe
+    var auxN = await Utilizador.findOne({ nome: req.body.nome });
+    var auxM = await Utilizador.findOne({ morada: req.body.morada });
+    var auxE = await Utilizador.findOne({ email: req.body.email });
 
-    //Pass
-    utilizador.pass = req.body.pass;
+    if (auxN == null && auxM == null && auxE == null) {
 
-    //Morada
-    utilizador.morada = req.body.morada;
+        //Utilizador
+        var utilizador = new Utilizador();
+        utilizador.nome = req.body.nome;
 
-    //Email
-    utilizador.email = req.body.email;
+        //Pass
+        utilizador.pass = req.body.pass;
 
-    //TipoUtilizador
-    var taux = await TipoUtilizador.findOne({ desc: req.body.tipoUtilizador });
-    if (taux != null) {
+        //Morada
+        utilizador.morada = req.body.morada;
 
-        utilizador.tipoUtilizador = taux._id;
-        // save the utilizador and check for errors
-        utilizador.save(function (err) {
-            if (err)
-                res.send(err);
+        //Email
+        utilizador.email = req.body.email;
 
-            res.json({ message: 'Utilizador created!' });
-        });
+        //TipoUtilizador
+        var taux = await TipoUtilizador.findOne({ desc: req.body.tipoUtilizador });
+        if (taux != null) {
+
+            utilizador.tipoUtilizador = taux._id;
+            // save the utilizador and check for errors
+            utilizador.save(function (err) {
+                if (err)
+                    res.send(err);
+
+                res.json({ message: 'Utilizador created!' });
+            });
+        } else {
+            res.statusCode = 200;
+            res.send('Problema com o tipoUtilizador!');
+        }
     } else {
-        res.statusCode = 200;
-        res.send('Problema com o tipoUtilizador');
+        res.send('Já existe essa informação noutro utilizador!');
     }
+
 };
 
 exports.modifUtilizador = async function (req, res) {
 
-    //Utilizador
-    var utilizador = await Utilizador.findOne({ _id: req.body._id });
-    utilizador.nome = req.body.nome;
+    //Verificar se já existe
+    var auxN = await Utilizador.findOne({ nome: req.body.nome });
+    var auxM = await Utilizador.findOne({ morada: req.body.morada });
+    var auxE = await Utilizador.findOne({ email: req.body.email });
 
-    //Pass
-    utilizador.pass = req.body.pass;
+    if (auxN == null && auxM == null && auxE == null) {
+        //Utilizador
+        var utilizador = await Utilizador.findOne({ _id: req.body._id });
+        if (utilizador != null) {
+            utilizador.nome = req.body.nome;
 
-    //Morada
-    utilizador.morada = req.body.morada;
+            //Pass
+            utilizador.pass = req.body.pass;
 
-    //Email
-    utilizador.email = req.body.email;
+            //Morada
+            utilizador.morada = req.body.morada;
 
-    //TipoUtilizador
-    var taux = await TipoUtilizador.findOne({ desc: req.body.tipoUtilizador });
-    if (taux != null) {
+            //Email
+            utilizador.email = req.body.email;
 
-        utilizador.tipoUtilizador = taux;
-        // save the utilizador and check for errors
-        utilizador.save(function (err) {
+            //TipoUtilizador
+            var taux = await TipoUtilizador.findOne({ desc: req.body.tipoUtilizador });
+            if (taux != null) {
+
+                utilizador.tipoUtilizador = taux;
+                // save the utilizador and check for errors
+                utilizador.save(function (err) {
+                    if (err)
+                        res.send(err);
+
+                    res.json({ message: 'Utilizador Modificado!' });
+                });
+            } else {
+                res.statusCode = 200;
+                res.send('Problema com o tipoUtilizador!');
+            }
+        } else {
+            res.send('Não existe Utilizador!');
+        }
+
+    } else {
+        res.send('Já existe essa informação noutro utilizador!');
+    }
+};
+
+exports.modifUtilizadorByNome = async function (req, res) {
+
+    //Verificar se já existe
+    var auxN = await Utilizador.findOne({ nome: req.body.nome });
+    var auxM = await Utilizador.findOne({ morada: req.body.morada });
+    var auxE = await Utilizador.findOne({ email: req.body.email });
+
+    if (auxN == null && auxM == null && auxE == null) {
+        //Utilizador
+        var utilizador = await Utilizador.findOne({ nome: req.params.nome });
+        if (utilizador != null) {
+            utilizador.nome = req.body.nome;
+
+            //Pass
+            utilizador.pass = req.body.pass;
+
+            //Morada
+            utilizador.morada = req.body.morada;
+
+            //Email
+            utilizador.email = req.body.email;
+
+            //TipoUtilizador
+            var taux = await TipoUtilizador.findOne({ desc: req.body.tipoUtilizador });
+            if (taux != null) {
+
+                utilizador.tipoUtilizador = taux;
+                // save the utilizador and check for errors
+                utilizador.save(function (err) {
+                    if (err)
+                        res.send(err);
+
+                    res.json({ message: 'Utilizador Modificado!' });
+                });
+            } else {
+                res.statusCode = 200;
+                res.send('Problema com o tipoUtilizador!');
+            }
+
+        } else {
+            res.send('Não existe Utilizador!');
+        }
+
+    } else {
+        res.send('Já existe essa informação noutro utilizador!');
+    }
+};
+
+exports.removeUtilizadorByNome = async function (req, res) {
+    var taux = await Utilizador.exists({ nome: req.params.nome });
+    if (taux == true) {
+        Utilizador.deleteOne({ nome: req.params.nome }, function (err, arr) {
             if (err)
                 res.send(err);
-
-            res.json({ message: 'Utilizador created!' });
+            res.json('Apagou com sucesso!');
         });
     } else {
-        res.statusCode = 200;
-        res.send('Problema com o tipoUtilizador');
+        res.send('Não existe!');
     }
 };
