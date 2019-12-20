@@ -9,6 +9,7 @@ var EncomendaSchema = new Schema({
     dataCriacaoEncomenda: Date,
     dataEntregaEncomenda: Date,
     estadoBloqueado: Boolean,//Verifica se já está em produção(false = ainda não| true = em produção)
+    precoTotal: Number,
     cliente: {type: Schema.Types.ObjectId, ref: 'Utilizador'}
 });
 

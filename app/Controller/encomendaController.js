@@ -19,6 +19,14 @@ exports.getEncomendaById = function (req, res) {
     });
 };
 
+exports.getEncomendaFromClientById = function (req, res) {
+    Encomenda.find({ cliente: req.params.cliente }, function (err, arr) {
+        if (err)
+            res.send(err);
+        res.json(arr);
+    });
+};
+
 async function getProduto(url) {
     return new Promise((resolve, reject) => {
         request({ url, method: 'GET' }, (error, response, body) => {
@@ -54,6 +62,9 @@ exports.saveEncomenda = async function (req, res) {
 
         //estado
         encomenda.estadoBloqueado = false;
+
+        //preço
+        encomenda.precoTotal = req.body.precoTotal;
 
         //TipoUtilizador
         var utilizador = await Utilizador.findOne({ _id: req.body.cliente });
@@ -101,6 +112,9 @@ exports.modifEncomenda = async function (req, res) {
 
             //estado
             encomenda.estadoBloqueado = req.body.estadoBloqueado;
+
+            //preço
+            encomenda.precoTotal = req.body.precoTotal;
 
             //utilizador
             var utilizador = await Utilizador.findOne({ _id: req.body.cliente });
