@@ -75,6 +75,7 @@ exports.getUtilizadorByNome = async function (req, res) {
 exports.saveUtilizador = async function (req, res) {
 
     //Verificar se já existe
+   
     var auxN = await Utilizador.findOne({ nome: req.body.nome });
     var auxM = await Utilizador.findOne({ morada: req.body.morada });
     var auxE = await Utilizador.findOne({ email: req.body.email });
@@ -95,7 +96,7 @@ exports.saveUtilizador = async function (req, res) {
         utilizador.email = req.body.email;
 
         //TipoUtilizador
-        var taux = await TipoUtilizador.findOne({ desc: req.body.tipoUtilizador });
+        var taux = await TipoUtilizador.findOne({ desc: req.body.tipoUtilizadorDesc});
         if (taux != null) {
 
             utilizador.tipoUtilizador = taux._id;
@@ -119,13 +120,16 @@ exports.saveUtilizador = async function (req, res) {
 exports.modifUtilizador = async function (req, res) {
 
     //Verificar se já existe
-    var auxN = await Utilizador.findOne({ nome: req.body.nome });
+    var auxP = await Utilizador.findOne({ pass: req.body.pass }); //xxx,n
+    //xxx,o var auxN = await Utilizador.findOne({ nome: req.body.nome });
     var auxM = await Utilizador.findOne({ morada: req.body.morada });
     var auxE = await Utilizador.findOne({ email: req.body.email });
 
-    if (auxN == null && auxM == null && auxE == null) {
+    //xxx,o if (auxN == null && auxM == null && auxE == null) {
+    if (auxP == null && auxM == null && auxE == null) { //xxx,n
         //Utilizador
-        var utilizador = await Utilizador.findOne({ _id: req.body._id });
+        //xxx,o var utilizador = await Utilizador.findOne({ _id: req.body._id });
+        var utilizador = await Utilizador.findOne({ nome: req.params.nome }); //xxx,n
         if (utilizador != null) {
             utilizador.nome = req.body.nome;
 
@@ -167,10 +171,12 @@ exports.modifUtilizadorByNome = async function (req, res) {
 
     //Verificar se já existe
     var auxN = await Utilizador.findOne({ nome: req.body.nome });
+    var auxP = await Utilizador.findOne({ pass: req.body.pass });//xxx,n
     var auxM = await Utilizador.findOne({ morada: req.body.morada });
     var auxE = await Utilizador.findOne({ email: req.body.email });
 
-    if (auxN == null && auxM == null && auxE == null) {
+    //xxx,o if (auxN == null && auxM == null && auxE == null) {
+    if (auxP == null && auxM == null && auxE == null) { //xxx,n
         //Utilizador
         var utilizador = await Utilizador.findOne({ nome: req.params.nome });
         if (utilizador != null) {
