@@ -120,13 +120,13 @@ exports.saveUtilizador = async function (req, res) {
 exports.modifUtilizador = async function (req, res) {
 
     //Verificar se já existe
-    var auxP = await Utilizador.findOne({ pass: req.body.pass }); //xxx,n
-    //xxx,o var auxN = await Utilizador.findOne({ nome: req.body.nome });
+    var auxP = await Utilizador.findOne({ pass: req.body.pass });
+    var auxN = await Utilizador.findOne({ nome: req.body.nome });
     var auxM = await Utilizador.findOne({ morada: req.body.morada });
     var auxE = await Utilizador.findOne({ email: req.body.email });
 
     //xxx,o if (auxN == null && auxM == null && auxE == null) {
-    if (auxP == null && auxM == null && auxE == null) { //xxx,n
+    if (auxP == null && auxM == null && auxE == null && auxN == null) { //xxx,n
         //Utilizador
         //xxx,o var utilizador = await Utilizador.findOne({ _id: req.body._id });
         var utilizador = await Utilizador.findOne({ nome: req.params.nome }); //xxx,n
@@ -143,7 +143,7 @@ exports.modifUtilizador = async function (req, res) {
             utilizador.email = req.body.email;
 
             //TipoUtilizador
-            var taux = await TipoUtilizador.findOne({ desc: req.body.tipoUtilizador });
+            var taux = await TipoUtilizador.findOne({ desc: req.body.tipoUtilizadorDesc });
             if (taux != null) {
 
                 utilizador.tipoUtilizador = taux;
@@ -192,7 +192,7 @@ exports.modifUtilizadorByNome = async function (req, res) {
             utilizador.email = req.body.email;
 
             //TipoUtilizador
-            var taux = await TipoUtilizador.findOne({ desc: req.body.tipoUtilizador });
+            var taux = await TipoUtilizador.findOne({ desc: req.body.tipoUtilizadorDesc });
             if (taux != null) {
 
                 utilizador.tipoUtilizador = taux;

@@ -143,7 +143,7 @@ exports.cancelarEncomenda = async function (req, res) {
 
     //Utilizador
     //produto
-    var encomenda = await Encomenda.findOne({ _id: req.body._id });
+    var encomenda = await Encomenda.findOne({ _id: req.params.id });
     if (encomenda != null && encomenda.estadoBloqueado == false) {
         encomenda.remove(function (err) {
             if (err)

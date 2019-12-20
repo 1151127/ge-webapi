@@ -9,6 +9,6 @@ router.get('/:id',eController.getEncomendaById);
 router.get('/cliente/:cliente',eController.getEncomendaFromClientById);
 router.post('/',eController.saveEncomenda);
 router.put('/',eController.modifEncomenda);
-router.delete('/',eController.cancelarEncomenda);
+router.delete('/:id',eController.cancelarEncomenda);
 
 module.exports = router;
