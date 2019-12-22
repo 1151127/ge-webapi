@@ -167,11 +167,12 @@ exports.modifUtilizador = async function (req, res) {
 exports.modifUtilizadorByNome = async function (req, res) {
 
     //Verificar se já existe
-    var auxN = await Utilizador.findOne({ nome: req.body.nome });
+    //var auxN = await Utilizador.findOne({ nome: req.body.nome });
     //var auxM = await Utilizador.findOne({ morada: req.body.morada });
-    var auxE = await Utilizador.findOne({ email: req.body.email });
+    //var auxE = await Utilizador.findOne({ email: req.body.email });
+    //var utilizador = await Utilizador.findOne({ nome: req.params.nome });
 
-    if (auxN == null && auxE == null) {
+    //if (auxN == null && auxE == null) {
         //Utilizador
         var utilizador = await Utilizador.findOne({ nome: req.params.nome });
         if (utilizador != null) {
@@ -207,9 +208,9 @@ exports.modifUtilizadorByNome = async function (req, res) {
             res.send('Não existe Utilizador!');
         }
 
-    } else {
+    /*} else {
         res.send('Já existe essa informação noutro utilizador!');
-    }
+    }*/
 };
 
 exports.removeUtilizadorByNome = async function (req, res) {
