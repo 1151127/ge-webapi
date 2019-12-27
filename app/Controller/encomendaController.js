@@ -89,8 +89,8 @@ exports.modifEncomenda = async function (req, res) {
 
     //Utilizador
     //produto
-    var encomenda = await Encomenda.findOne({ _id: req.params._id });
-    if (encomenda != null && encomenda.estadoBloqueado == true) {
+    var encomenda = await Encomenda.findOne({ _id: req.params.id });
+    if (encomenda != null && encomenda.estadoBloqueado == false) {
 
         let { response, body } = await getProduto(urlMDP + req.body.produtoId);
         if (response.statusCode !== 200) {
