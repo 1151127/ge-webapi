@@ -50,8 +50,8 @@ app.use('/api/utilizador',cors(corsOptions), utilizadorRouter);
 app.use('/api/tipoUtilizador',cors(corsOptions), tipoUtilizadorRouter);
 app.use('/api/encomenda',cors(corsOptions), encomendaRouter);
 app.use(function (req, res, next) {
-  //res.header("Access-Control-Allow-Origin", "*");
-  //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Origin", "https://moc-app.herokuapp.com");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next(createError(404));
 });
 
