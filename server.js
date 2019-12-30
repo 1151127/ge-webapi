@@ -8,7 +8,7 @@ var express = require('express');        // call express
 var app = express();                 // define our app using express
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var cors = require('cors')
+var cors = require('cors');
 
 //Router
 var utilizadorRouter = require('./app/Routes/utilizadorRouter');
@@ -22,10 +22,9 @@ app.use(bodyParser.json());
 mongoose.connect('mongodb+srv://root:qwert19@gedatabase-clbjy.azure.mongodb.net/test?retryWrites=true&w=majority', {useUnifiedTopology: true, useNewUrlParser: true}); // connect to our database
 
 //CORS
-var corsOptions = {
-  origin: 'https://moc-app.herokuapp.com',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
+app.use(cors({
+  origin: 'https://moc-app.herokuapp.com'
+}));
 
 var port = process.env.PORT || 8080;        // set our port
 // ROUTES FOR OUR API
@@ -50,8 +49,6 @@ app.use('/api/utilizador',cors(corsOptions), utilizadorRouter);
 app.use('/api/tipoUtilizador',cors(corsOptions), tipoUtilizadorRouter);
 app.use('/api/encomenda',cors(corsOptions), encomendaRouter);
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://moc-app.herokuapp.com");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next(createError(404));
 });
 
