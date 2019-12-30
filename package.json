@@ -8,6 +8,7 @@
     "dependencies": {
         "axios": "^0.19.0",
         "body-parser": "latest",
+        "cors": "^2.8.5",
         "express": "latest",
         "https": "latest",
         "js-httpclient": "0.0.3",

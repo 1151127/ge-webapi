@@ -21,7 +21,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 mongoose.connect('mongodb+srv://root:qwert19@gedatabase-clbjy.azure.mongodb.net/test?retryWrites=true&w=majority', {useUnifiedTopology: true, useNewUrlParser: true}); // connect to our database
 
-
 //CORS
 app.use(cors({
   origin: 'https://moc-app.herokuapp.com'
@@ -46,9 +45,9 @@ router.get('/', function (req, res) {
 
 // ROUTES FOR OUR API
 // =============================================================================
-app.use('/api/utilizador',cors(corsOptions), utilizadorRouter);
-app.use('/api/tipoUtilizador',cors(corsOptions), tipoUtilizadorRouter);
-app.use('/api/encomenda',cors(corsOptions), encomendaRouter);
+app.use('/api/utilizador', utilizadorRouter);
+app.use('/api/tipoUtilizador', tipoUtilizadorRouter);
+app.use('/api/encomenda', encomendaRouter);
 app.use(function (req, res, next) {
   next(createError(404));
 });
