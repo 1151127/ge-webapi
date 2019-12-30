@@ -44,6 +44,8 @@ app.use('/api/utilizador', utilizadorRouter);
 app.use('/api/tipoUtilizador', tipoUtilizadorRouter);
 app.use('/api/encomenda', encomendaRouter);
 app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next(createError(404));
 });
 
