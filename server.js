@@ -14,12 +14,13 @@ var cors = require('cors');
 var utilizadorRouter = require('./app/Routes/utilizadorRouter');
 var tipoUtilizadorRouter = require('./app/Routes/tipoUtilizadorRouter');
 var encomendaRouter = require('./app/Routes/encomendaRouter');
+var estatisticaRouter = require('./app/Routes/estatisticaRouter');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-mongoose.connect('mongodb+srv://root:qwert19@gedatabase-clbjy.azure.mongodb.net/test?retryWrites=true&w=majority', {useUnifiedTopology: true, useNewUrlParser: true}); // connect to our database
+mongoose.connect('mongodb+srv://root:qwert19@gedatabase-clbjy.azure.mongodb.net/test?retryWrites=true&w=majority', {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }); // connect to our database
 
 //CORS
 app.use(cors({
@@ -48,6 +49,7 @@ router.get('/', function (req, res) {
 app.use('/api/utilizador', utilizadorRouter);
 app.use('/api/tipoUtilizador', tipoUtilizadorRouter);
 app.use('/api/encomenda', encomendaRouter);
+app.use('/api/estatistica', estatisticaRouter);
 app.use(function (req, res, next) {
   next(createError(404));
 });

@@ -1,4 +1,4 @@
-const TipoUtilizador = require('../Models/tipoUtilizador');
+const TipoUtilizador = require('../../app/Models/tipoUtilizador');
 
 exports.save = async function (req, res) {
     if (req.body.desc != null) {

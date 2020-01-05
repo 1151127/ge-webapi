@@ -1,6 +1,7 @@
-const Encomenda = require('../Models/encomenda');
-const RegistoEncomenda = require('../Models/registoEncomenda');
-const Utilizador = require('../Models/utilizador');
+const Encomenda = require('../../app/Models/encomenda');
+const RegistoEncomenda = require('../../app/Models/registoEncomenda');
+const Utilizador = require('../../app/Models/utilizador');
+const produto = require('../../app/Models/produto');
 const request = require('request');
 const urlMDP = 'https://mdpapi.azurewebsites.net/api/produto/';
 
@@ -47,11 +48,19 @@ exports.save = async function (req, res) {
     } else {
         //produto
         var encomenda = new Encomenda();
-        encomenda.produtoId = req.body.produtoId;
+        var n_enc = await Encomenda.countDocuments();
 
+        encomenda.N_Encomenda = 'ENC' + n_enc;
+        encomenda.produtoId = req.body.produtoId;
+       
+        var Produto =  new produto();
+        Produto = JSON.parse(response.body)
+
+        encomenda.precoUnit = Produto.preco;
+        
         //quantidade
         encomenda.quantidade = req.body.quantidade;
-
+        encomenda.precoTotal = Produto.preco * req.body.quantidade;
         //data
         encomenda.dataCriacaoEncomenda = new Date(req.body.dataCriacaoEncomenda);
         if (req.body.dataEntregaEncomenda != null) {
@@ -61,12 +70,12 @@ exports.save = async function (req, res) {
         }
 
         //estado
+        encomenda.estadoBloqueado = false;
+        encomenda.estado = 'Aberta';
         encomenda.estadoProducao = false;
         encomenda.estadoFinalizado = false;
         encomenda.estadoEnviado = false;
 
-        //preço
-        encomenda.precoTotal = req.body.precoTotal;
 
         //TipoUtilizador
         var utilizador = await Utilizador.findOne({ _id: req.body.cliente });
@@ -116,9 +125,15 @@ exports.modif = async function (req, res) {
             //
 
             encomenda.produtoId = req.body.produtoId;
+            //quantidade
+            var Produto =  new produto();
+            Produto = JSON.parse(response.body)
 
+            encomenda.precoUnit = Produto.preco;
+            
             //quantidade
             encomenda.quantidade = req.body.quantidade;
+            encomenda.precoTotal = Produto.preco * req.body.quantidade;
 
             //data
             encomenda.dataCriacaoEncomenda = new Date(req.body.dataCriacaoEncomenda);
@@ -129,6 +144,8 @@ exports.modif = async function (req, res) {
             }
 
             //estado
+            encomenda.estadoBloqueado = req.body.estadoBloqueado;
+            encomenda.estado = req.body.estado;
             encomenda.estadoProducao = req.body.estadoProducao;
             encomenda.estadoFinalizado = req.body.estadoFinalizado;
             encomenda.estadoEnviado = req.body.estadoEnviado;

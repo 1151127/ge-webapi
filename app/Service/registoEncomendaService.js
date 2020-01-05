@@ -1,4 +1,4 @@
-const RegistoEncomenda = require('../Models/registoEncomenda');
+const RegistoEncomenda = require('../../app/Models/registoEncomenda');
 
 exports.getAll = function (req, res) {
     RegistoEncomenda.find(function (err, arr) {

@@ -1,6 +1,7 @@
-const Utilizador = require('../Models/utilizador');
-const UtilizadorDTO = require('../DTO/utilizadorDTO');
-const TipoUtilizador = require('../Models/tipoUtilizador');
+const Encomenda = require('../../app/Models/encomenda');
+const Utilizador = require('../../app/Models/utilizador');
+const UtilizadorDTO = require('../../app/DTO/utilizadorDTO');
+const TipoUtilizador = require('../../app/Models/tipoUtilizador');
 
 exports.getAll = async function (req, res) {
     Utilizador.find(async function (err, arr) {
@@ -74,10 +75,12 @@ exports.getByNome = async function (req, res) {
 
 exports.save = async function (req, res) {
     //Verificar se já existe
-   
-    var auxN = await Utilizador.findOne({ nome: req.body.nome });
-    var auxM = await Utilizador.findOne({ morada: req.body.morada });
-    var auxE = await Utilizador.findOne({ email: req.body.email });
+
+    var TUtilizador = await TipoUtilizador.findOne({ desc: req.body.tipoUtilizadorDesc});
+
+    var auxN = await Utilizador.findOne({ nome: req.body.nome, tipoUtilizador: TUtilizador });
+    var auxM = await Utilizador.findOne({ morada: req.body.morada, tipoUtilizador: TUtilizador });
+    var auxE = await Utilizador.findOne({ email: req.body.email, tipoUtilizador: TUtilizador });
 
     if (auxN == null && auxM == null && auxE == null) {
 
@@ -211,14 +214,16 @@ exports.modifByNome = async function (req, res) {
 };
 
 exports.removeByNome = async function (req, res) {
-    var taux = await Utilizador.exists({ nome: req.params.nome });
-    if (taux == true) {
+    var taux = await Utilizador.findOne({ nome: req.params.nome });
+ 
+    var encomenda = await Encomenda.findOne({ cliente: taux._id });
+    if ((encomenda == null) && (taux == null)) {
         Utilizador.deleteOne({ nome: req.params.nome }, function (err, arr) {
             if (err)
                 res.send(err);
             res.json('Apagou com sucesso!');
         });
-    } else {
-        res.send('Não existe!');
-    }
+} else {
+    res.send('O Utilizador ' + req.params.nome +' não pode ser eliminado pois tem encomendas no seu nome.');
+}
 };
