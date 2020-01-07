@@ -37,7 +37,12 @@ exports.save = async function (req, res) {
 
         Estatistica.produtoId = req.body.produtoID;
         //quantidade
+        if (req.body.quantidade != null) {
         Estatistica.quantidade = req.body.quantidade;
+        } else 
+        {
+            Estatistica.quantidade = 0;
+        }
         Estatistica.count = 0;
 
         Estatistica.save(function (err) {
@@ -56,6 +61,9 @@ exports.modif = async function (req, res) {
     if (Estatistica != null) {
 
             //quantidade
+            if (Estatistica.quantidade == null) {
+                Estatistica.quantidade = 0;
+            }
             Estatistica.quantidade = Estatistica.quantidade + req.body.quantidade;
 
             Estatistica.count = Estatistica.count + 1;
