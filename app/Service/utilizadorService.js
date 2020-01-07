@@ -78,8 +78,8 @@ exports.save = async function (req, res) {
 
     var TUtilizador = await TipoUtilizador.findOne({ desc: req.body.tipoUtilizadorDesc});
 
-    var auxN = await Utilizador.findOne({ nome: req.body.nome, tipoUtilizador: TUtilizador });
-    var auxM = await Utilizador.findOne({ morada: req.body.morada, tipoUtilizador: TUtilizador });
+    var auxN = await Utilizador.findOne({ nome: req.body.nome});
+    var auxM = await Utilizador.findOne({ morada: req.body.morada, tipoUtilizador: TUtilizador});
     var auxE = await Utilizador.findOne({ email: req.body.email, tipoUtilizador: TUtilizador });
 
     if (auxN == null && auxM == null && auxE == null) {

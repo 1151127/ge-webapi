@@ -19,7 +19,8 @@ var EncomendaSchema = new Schema({
     estadoFinalizado: Boolean, //Verifica se já está em finalizado(false = ainda não| true = finalizado)
     estadoEnviado: Boolean, //Verifica se já está em enviado(false = ainda não| true = enviado)
     precoTotal: Number,
-    cliente: {type: Schema.Types.ObjectId, ref: 'Utilizador'}
+    cliente: {type: Schema.Types.ObjectId, ref: 'Utilizador'},
+    produto: {type:Object, ref: 'Produto'}
 });
 
 module.exports = mongoose.model('Encomenda', EncomendaSchema);

@@ -48,6 +48,9 @@ exports.save = async function (req, res) {
     } else {
         //produto
         var encomenda = new Encomenda();
+        var Produto =  new produto();
+        Produto = JSON.parse(response.body)
+        encomenda.produto = Produto;
         var n_enc = await Encomenda.countDocuments();
 
         encomenda.N_Encomenda = 'ENC' + n_enc;

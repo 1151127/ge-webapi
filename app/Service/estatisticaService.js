@@ -45,8 +45,6 @@ exports.save = async function (req, res) {
                 res.send(err);
             res.json({ message: 'Estatistica Criada!' });
         });
-        
-
     }
 };
 
