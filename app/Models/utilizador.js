@@ -9,6 +9,8 @@ var UtilizadorSchema   = new Schema({
     email: String,
     morada: String,
     tipoUtilizador : {type: Schema.Types.ObjectId, ref: 'tipoUtilizador'}
+
+    
 });
 
 module.exports = mongoose.model('Utilizador', UtilizadorSchema);

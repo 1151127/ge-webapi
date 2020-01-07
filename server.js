@@ -22,9 +22,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 mongoose.connect('mongodb+srv://root:qwert19@gedatabase-clbjy.azure.mongodb.net/test?retryWrites=true&w=majority', {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }); // connect to our database
 
+
 //CORS
+var whitelist = ['https://moc-app.herokuapp.com', 'http://localhost:4200']
 app.use(cors({
-  origin: 'https://moc-app.herokuapp.com'
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
 }));
 
 var port = process.env.PORT || 8080;        // set our port
