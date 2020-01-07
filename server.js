@@ -26,13 +26,7 @@ mongoose.connect('mongodb+srv://root:qwert19@gedatabase-clbjy.azure.mongodb.net/
 //CORS
 var whitelist = ['https://moc-app.herokuapp.com', 'http://localhost:4200']
 app.use(cors({
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
+  origin: 'https://moc-app.herokuapp.com'
 }));
 
 var port = process.env.PORT || 8080;        // set our port
